@@ -32,6 +32,7 @@ logging:
               BasicBinder: TRACE
 
 
+
 cors:
   allowed-origins:
     - "http://localhost:4200"
