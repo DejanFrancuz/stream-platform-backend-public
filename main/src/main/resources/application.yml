@@ -31,6 +31,10 @@ logging:
             sql:
               BasicBinder: TRACE
 
+stripe:
+  secret-key: sk_test_51S7dt7PHHbkxw0ku0dd6D4pacv1bhYQhWyzDP2qEcPfjKGBlxXhcv3Qlm32lV2WMcqECMRYNvtSE5lfxQFH0LKAj00uFlfohGx
+
+
 cors:
   allowed-origins:
     - "http://localhost:4200"

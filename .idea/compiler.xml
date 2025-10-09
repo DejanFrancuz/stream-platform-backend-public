@@ -7,13 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="movies" />
         <module name="main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="apps" target="17" />
       <module name="auth" target="17" />
+      <module name="movies" target="17" />
       <module name="shared" target="17" />
       <module name="users" target="17" />
     </bytecodeTargetLevel>
