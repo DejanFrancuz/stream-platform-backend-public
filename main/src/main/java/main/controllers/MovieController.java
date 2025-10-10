@@ -147,22 +147,24 @@ public class MovieController {
     @PostMapping(value = "/add-movie-for-person",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<?> addMovieForPerson(@RequestBody long movieId) {
+    public ResponseEntity<?> addMovieForPerson(@RequestBody long[] movieIds) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
 
         User user = userService.loadUserByEmail(username);
 
 
-        Optional<Movie> optionalMovie = movieService.findById(movieId);
+        for(Long movieId : movieIds) {
+            Optional<Movie> optionalMovie = movieService.findById(movieId);
 
-        if (optionalMovie.isEmpty()) return ResponseEntity.notFound().build();
+            if (optionalMovie.isEmpty()) return ResponseEntity.notFound().build();
 
-        Movie movie = optionalMovie.get();
+            Movie movie = optionalMovie.get();
 
-        user.getOwnedMovies().add(movie.getMovieId());
-        userService.save(user);
+            user.getOwnedMovies().add(movie.getMovieId());
+            userService.save(user);
 
+        }
         return ResponseEntity.ok().build();
 
     }

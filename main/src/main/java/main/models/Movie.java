@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ public class Movie {
 
     private String genre;
 
+    @Column(precision = 10, scale = 2)
+    private BigDecimal price;
 
     @ElementCollection
     @CollectionTable(name = "user_movies", joinColumns = @JoinColumn(name = "movie_id"))
