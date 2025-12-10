@@ -9,7 +9,6 @@ env:
   AWS_REGION: us-east-1
   APPLICATION_NAME: stream-platform
   ENVIRONMENT_NAME: Stream-platform-env
-  JAR_NAME: main-1.0-SNAPSHOT.jar
 
 jobs:
   deploy:
@@ -26,10 +25,14 @@ jobs:
           java-version: '17'
 
       - name: Build JAR
-        run: mvn -B clean package
+        run: mvn -B -pl main -am clean package
+
+      - name: Find built JAR
+        id: findjar
+        run: echo "JAR_FILE=$(ls main/target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
       - name: Zip application
-        run: zip deployment.zip target/${{ env.JAR_NAME }}
+        run: zip deployment.zip "${{ steps.findjar.outputs.JAR_FILE }}"
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
