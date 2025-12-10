@@ -5,9 +5,15 @@ spring:
   application:
     name: stream-backend
 
+#  datasource:
+#    url: ${DB_URL}
+#    username: root
+#    password: ${DB_PASSWORD}
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+
   datasource:
-    url: ${DB_URL}
-    username: root
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
