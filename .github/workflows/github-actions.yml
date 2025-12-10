@@ -45,10 +45,3 @@ jobs:
           region: ${{ env.AWS_REGION }}
           deployment_package: deployment.zip
 
-      - name: Upload zip artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: deployment
-          path: deployment.zip
-
-
