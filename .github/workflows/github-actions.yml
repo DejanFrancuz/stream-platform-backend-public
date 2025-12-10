@@ -44,3 +44,10 @@ jobs:
           version_label: ${{ github.run_id }}-${{ github.run_attempt }}
           region: ${{ env.AWS_REGION }}
           deployment_package: deployment.zip
+
+      - name: Upload zip artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: deployment.zip
+          path: deployment.zip
+
