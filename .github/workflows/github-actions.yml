@@ -25,14 +25,14 @@ jobs:
           java-version: '17'
 
       - name: Build JAR
-        run: mvn -B -pl main -am clean package
+      - run: mvn -B clean package
 
       - name: Find built JAR
         id: findjar
         run: echo "JAR_FILE=$(ls main/target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
       - name: Zip application
-        run: cd main/target && zip ../../deployment.zip *.jar
+        run: zip -j deployment.zip "${{ steps.findjar.outputs.JAR_FILE }}"
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
@@ -48,6 +48,7 @@ jobs:
       - name: Upload zip artifact
         uses: actions/upload-artifact@v4
         with:
-          name: deployment.zip
+          name: deployment
           path: deployment.zip
+
 
