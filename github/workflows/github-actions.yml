@@ -1,0 +1,43 @@
+name: Deploy to Elastic Beanstalk
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  APPLICATION_NAME: stream-platform
+  ENVIRONMENT_NAME: Stream-platform-env
+  JAR_NAME: main-1.0-SNAPSHOT.jar
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build JAR
+        run: mvn -B clean package
+
+      - name: Zip application
+        run: zip deployment.zip target/${{ env.JAR_NAME }}
+
+      - name: Deploy to Elastic Beanstalk
+        uses: einaregilsson/beanstalk-deploy@v21
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ env.APPLICATION_NAME }}
+          environment_name: ${{ env.ENVIRONMENT_NAME }}
+          version_label: ${{ github.run_number }}
+          region: ${{ env.AWS_REGION }}
+          deployment_package: deployment.zip
