@@ -32,7 +32,7 @@ jobs:
         run: echo "JAR_FILE=$(ls main/target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
       - name: Zip application
-        run: zip deployment.zip "${{ steps.findjar.outputs.JAR_FILE }}"
+        run: cd main/target && zip ../../deployment.zip *.jar
 
       - name: Deploy to Elastic Beanstalk
         uses: einaregilsson/beanstalk-deploy@v21
