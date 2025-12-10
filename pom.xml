@@ -8,6 +8,16 @@
     <artifactId>stream-platform</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+
+    <profiles>
+        <profile>
+            <id>local</id>
+            <properties>
+                <env>local</env>
+            </properties>
+        </profile>
+    </profiles>
+
     <modules>
         <module>main</module>
     </modules>
