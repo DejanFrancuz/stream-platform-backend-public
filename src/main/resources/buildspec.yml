@@ -1,0 +1,21 @@
+version: 0.2
+
+env:
+  parameter-store:
+    DB_URL: "/stream-backend/db/url"
+    DB_PASSWORD: "/stream-backend/db/password"
+    STRIPE_KEY: "/stream-backend/db/stripe"
+
+
+phases:
+  install:
+    commands:
+      - echo Installing Maven
+  build:
+    commands:
+      - echo Building application...
+      - mvn package -DskipTests
+
+artifacts:
+  files:
+    - target/*.jar

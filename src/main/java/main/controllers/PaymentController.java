@@ -1,6 +1,5 @@
 package main.controllers;
 
-import com.google.gson.Gson;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import main.models.CreatePayment;
@@ -20,8 +19,6 @@ import java.util.Map;
 @CrossOrigin(origins = "http://localhost:4200")
 public class PaymentController {
     private final PaymentService paymentService;
-
-    private static Gson gson = new Gson();
 
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;

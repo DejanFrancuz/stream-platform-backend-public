@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: stream-backend
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/test_schema?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: root
+    password: 'dejanfrancu7'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+
+  web:
+    resources:
+      static-locations: file:media/
+
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: DEBUG
+        type:
+          descriptor:
+            sql:
+              BasicBinder: TRACE
+
+stripe:
+  secret-key: sk_test_51S7dt7PHHbkxw0ku0dd6D4pacv1bhYQhWyzDP2qEcPfjKGBlxXhcv3Qlm32lV2WMcqECMRYNvtSE5lfxQFH0LKAj00uFlfohGx
+
+cors:
+  allowed-origins:
+    - "http://localhost:4200"
+  allowed-methods:
+    - "GET"
+    - "POST"
+    - "PUT"
+    - "DELETE"
+    - "OPTIONS"
+  allowed-headers:
+    - "*"
+
+jwt:
+  secret: "secret-key"
+  expiration: 3600000
