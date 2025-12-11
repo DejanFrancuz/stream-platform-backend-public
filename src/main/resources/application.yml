@@ -12,9 +12,9 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${STREAM_HOST}:${STREAM_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${STREAM_USERNAME}
+    password: ${STREAM_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
