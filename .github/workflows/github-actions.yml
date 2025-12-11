@@ -29,7 +29,7 @@ jobs:
 
       - name: Find built JAR
         id: findjar
-        run: echo "JAR_FILE=$(ls main/target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
+        run: echo "JAR_FILE=$(ls target/*.jar | head -n 1)" >> $GITHUB_OUTPUT
 
       - name: Zip application
         run: zip -j deployment.zip "${{ steps.findjar.outputs.JAR_FILE }}"
