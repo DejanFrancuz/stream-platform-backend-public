@@ -4,4 +4,4 @@
 /modules/shared/target/
 /modules/users/target/
 /modules/movies/target/
-/main/src/main/resources/application-local.yml
+/src/main/resources/application-local.yml
