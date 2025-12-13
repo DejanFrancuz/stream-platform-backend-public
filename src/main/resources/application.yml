@@ -42,6 +42,7 @@ stripe:
 cors:
   allowed-origins:
     - "http://localhost:4200"
+    - "http://stream-frontend-bucket.s3-website-us-east-1.amazonaws.com/"
   allowed-methods:
     - "GET"
     - "POST"
