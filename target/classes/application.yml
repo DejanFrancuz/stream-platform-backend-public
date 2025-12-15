@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${PORT:5000}
 
 spring:
   application:
@@ -12,9 +12,9 @@ spring:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 
   datasource:
-    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-    username: ${DB_USERNAME}
-    password: ${DB_PASSWORD}
+    url: jdbc:mysql://${STREAM_HOST}:${STREAM_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    username: ${STREAM_USERNAME}
+    password: ${STREAM_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -42,6 +42,7 @@ stripe:
 cors:
   allowed-origins:
     - "http://localhost:4200"
+    - "http://stream-frontend-bucket.s3-website-us-east-1.amazonaws.com/"
   allowed-methods:
     - "GET"
     - "POST"
