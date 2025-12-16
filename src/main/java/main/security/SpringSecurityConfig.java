@@ -44,6 +44,7 @@ public class SpringSecurityConfig{
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/api/users/create").permitAll()
                         .requestMatchers("/media/**").permitAll()
+                        .requestMatchers("/actuator/health").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess

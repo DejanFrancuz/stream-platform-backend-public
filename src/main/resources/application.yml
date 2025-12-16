@@ -11,6 +11,13 @@ spring:
 #    password: ${DB_PASSWORD}
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health
+
+
   datasource:
     url: jdbc:mysql://${STREAM_HOST}:${STREAM_PORT}/${DB_NAME}?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     username: ${STREAM_USERNAME}
