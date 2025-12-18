@@ -15,7 +15,6 @@ import java.time.Duration;
 import java.util.Set;
 
 @RestController
-@CrossOrigin
 @AllArgsConstructor
 @RequestMapping("/auth")
 public class AuthController {

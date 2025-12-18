@@ -3,11 +3,9 @@ package main.controllers;
 import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import main.models.CreatePayment;
-import main.models.CreatePaymentItem;
 import main.models.CreatePaymentResponse;
 import main.models.PaymentConfirmRequest;
 import main.services.PaymentService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/payments")
-@CrossOrigin(origins = "http://localhost:4200")
 public class PaymentController {
     private final PaymentService paymentService;
 
