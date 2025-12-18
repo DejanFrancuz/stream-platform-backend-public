@@ -49,7 +49,7 @@ stripe:
 cors:
   allowed-origins:
     - "http://localhost:4200"
-    - "http://dfpybtxmxgkxr.cloudfront.net"
+    - "https://dfpybtxmxgkxr.cloudfront.net"
   allowed-methods:
     - "GET"
     - "POST"
