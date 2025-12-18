@@ -60,5 +60,5 @@ cors:
     - "*"
 
 jwt:
-  secret: "secret-key"
+  secret: ${JWT_SECRET}
   expiration: 3600000

@@ -9,6 +9,8 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Value;
+
 
 import javax.crypto.SecretKey;
 import java.util.*;
@@ -16,11 +18,20 @@ import java.util.stream.Collectors;
 
 @Component
 public class JwtUtil {
-    public SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS512);
-    public String base64Key = Encoders.BASE64.encode(key.getEncoded());
+    private final SecretKey key;
+    private final long expiration;
+//    public String base64Key = Encoders.BASE64.encode(key.getEncoded());
+
+    public JwtUtil(
+            @Value("${jwt.secret}") String secret,
+            @Value("${jwt.expiration}") long expiration
+    ) {
+        this.key = Keys.hmacShaKeyFor(Base64.getDecoder().decode(secret));
+        this.expiration = expiration;
+    }
 
     public Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(base64Key).parseClaimsJws(token).getBody();
+        return Jwts.parser().setSigningKey(key).parseClaimsJws(token).getBody();
     }
 
     public List<GrantedAuthority> extractAuthorities(String token) {
@@ -40,8 +51,8 @@ public class JwtUtil {
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 10))
-                .signWith(SignatureAlgorithm.HS512, base64Key)
+                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(SignatureAlgorithm.HS512, key)
                 .compact();
     }
 
