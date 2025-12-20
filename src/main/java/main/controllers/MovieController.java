@@ -1,5 +1,6 @@
 package main.controllers;
 
+import main.config.VideoConfig;
 import main.models.Movie;
 import main.models.MovieFilterDto;
 import main.models.User;
@@ -19,6 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.net.URI;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -34,10 +36,12 @@ public class MovieController {
 
     private static final String VIDEO_PATH = "C:/Users/Dejan/Desktop/stream-backend/media/videos/";
 
+    private final VideoConfig videoConfig;
 
-    public MovieController(MovieService movieService, UserService userService) {
+    public MovieController(MovieService movieService, UserService userService, VideoConfig videoConfig) {
         this.movieService = movieService;
         this.userService = userService;
+        this.videoConfig = videoConfig;
     }
 
     @GetMapping(value = "/all",
@@ -69,9 +73,11 @@ public class MovieController {
         return movieService.filterMovies(myMovies, user.getLikedMovies(), user.getOwnedMovies(), filter, pageable);
     }
 
-    @GetMapping(value = "watch/{movieId}", produces = "video/mp4")
-    public ResponseEntity<ResourceRegion> watchMovie(@PathVariable(value = "movieId") final Long movieId,
-                                                     @RequestHeader HttpHeaders headers) throws IOException {
+    @GetMapping(value = "/watch/{movieId}", produces = "video/mp4")
+    public ResponseEntity<?> watchMovie(
+            @PathVariable (value = "movieId") final Long movieId,
+            @RequestHeader HttpHeaders headers
+    ) throws IOException {
 
         Optional<Movie> optionalMovie = movieService.findById(movieId);
 
@@ -79,9 +85,29 @@ public class MovieController {
             return ResponseEntity.notFound().build();
         }
 
-        System.out.print(optionalMovie.get().getVideoPreviewUrl());
+        Movie movie = optionalMovie.get();
 
-        FileSystemResource videoResource = new FileSystemResource(VIDEO_PATH + optionalMovie.get().getVideoPreviewUrl());
+        if (videoConfig.isCloudFront()) {
+            return redirectToCloudFront(movie);
+        }
+
+        return streamLocalVideo(movie, headers);
+    }
+
+    private ResponseEntity<Void> redirectToCloudFront(Movie movie) {
+
+        URI uri = URI.create(
+                videoConfig.getCloudfrontBaseUrl() + "/media/videos/" + movie.getVideoPreviewUrl()
+        );
+
+        return ResponseEntity.status(HttpStatus.FOUND)
+                .location(uri)
+                .build();
+    }
+
+    public ResponseEntity<ResourceRegion> streamLocalVideo(Movie movie, HttpHeaders headers) throws IOException {
+
+        FileSystemResource videoResource = new FileSystemResource(VIDEO_PATH + movie.getVideoPreviewUrl());
         long contentLength = videoResource.contentLength();
 
         MediaType mediaType = MediaTypeFactory.getMediaType(videoResource)

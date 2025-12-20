@@ -62,3 +62,9 @@ cors:
 jwt:
   secret: ${JWT_SECRET}
   expiration: 3600000
+
+app:
+  video:
+    mode: local
+    local-path: /videos/
+    cloudfront-base-url: https://d1lw4nf8aa8prd.cloudfront.net

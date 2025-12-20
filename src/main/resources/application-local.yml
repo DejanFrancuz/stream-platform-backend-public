@@ -49,3 +49,7 @@ cors:
 jwt:
   secret: 'ZWZE1FCbhv09Gtu0g4zk60stWjDw7H7ath42+jOyDZ6RKxbukQGZDyKcJWGuatZGnHbQSVtZLnYppOdOdz4ejQ=='
   expiration: 3600000
+
+app:
+  video:
+    mode: cloudfront
