@@ -87,11 +87,11 @@ public class MovieController {
 
         Movie movie = optionalMovie.get();
 
-        if (videoConfig.isCloudFront()) {
+//        if (videoConfig.isCloudFront()) {
             return redirectToCloudFront(movie);
-        }
+//        }
 
-        return streamLocalVideo(movie, headers);
+//        return streamLocalVideo(movie, headers);
     }
 
     private ResponseEntity<Void> redirectToCloudFront(Movie movie) {
