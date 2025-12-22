@@ -15,5 +15,4 @@ public interface MovieRepository extends JpaRepository<Movie, Long>, JpaSpecific
     Page<Movie> findAllByMovieIdNotIn(List<Long> movieIds, Pageable pageable);
 
     Page<Movie> findAllByMovieIdIn(List<Long> movieIds, Pageable pageable);
-
 }

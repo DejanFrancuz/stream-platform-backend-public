@@ -158,7 +158,6 @@ public class MovieController {
         movie.setGenre(movieDto.getGenre());
 
         return ResponseEntity.ok(movieService.save(movie));
-
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -202,7 +201,6 @@ public class MovieController {
         String username = authentication.getName();
 
         User user = userService.loadUserByEmail(username);
-
 
         Optional<Movie> optionalMovie = movieService.findById(movieId);
 

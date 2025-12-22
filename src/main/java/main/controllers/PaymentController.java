@@ -24,11 +24,8 @@ public class PaymentController {
 
     @PostMapping(value = "/create-intent", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<CreatePaymentResponse> createPaymentIntent(@RequestBody CreatePayment request) {
-//        CreatePayment postBody = gson.fromJson(request.body(), CreatePayment.class);
 
         try {
-
-
             String secret = paymentService.createPaymentIntent(request);
             return ResponseEntity.ok(new CreatePaymentResponse(secret));
         }catch (StripeException ex){
@@ -42,9 +39,8 @@ public class PaymentController {
         System.out.println("Request DTO: " + request);
         System.out.println("PaymentIntentId: " + request.getPaymentIntentId());
         PaymentIntent intent = PaymentIntent.retrieve(request.getPaymentIntentId());
-        // Opcionalno: proveri amount, userId itd.
 
-        PaymentIntent confirmed = intent.confirm(); // server-side confirm
+        PaymentIntent confirmed = intent.confirm();
         return ResponseEntity.ok(Map.of(
                 "status", confirmed.getStatus(),
                 "paymentIntentId", confirmed.getId()
