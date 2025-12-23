@@ -49,6 +49,16 @@ public class RefreshTokenService {
         return token;
     }
 
+    public void revokeByRawToken(String rawToken) {
+        String hash = hash(rawToken);
+        refreshTokenRepository.findByTokenHash(hash)
+                .ifPresent(token -> {
+                    token.setRevoked(true);
+                    refreshTokenRepository.save(token);
+                });
+    }
+
+
     public void revoke(RefreshToken token) {
         token.setRevoked(true);
         refreshTokenRepository.save(token);

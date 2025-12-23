@@ -118,15 +118,30 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<Void> logout(HttpServletResponse response) {
-        ResponseCookie cookie = ResponseCookie.from("jwt", "")
+    public ResponseEntity<Void> logout(@CookieValue (value = "refresh_token", required = false) String refreshToken, HttpServletResponse response) {
+
+        if(refreshToken != null) {
+            refreshTokenService.revokeByRawToken(refreshToken);
+        }
+
+        ResponseCookie accessDelete = ResponseCookie.from("access_token", "")
                 .httpOnly(true)
                 .secure(true)
                 .path("/")
                 .maxAge(0)
-                .sameSite("Strict")
+                .sameSite("None")
                 .build();
-        response.setHeader(HttpHeaders.SET_COOKIE, cookie.toString());
+        response.addHeader(HttpHeaders.SET_COOKIE, accessDelete.toString());
+
+        ResponseCookie refreshDelete = ResponseCookie.from("refresh_token", "")
+                .httpOnly(true)
+                .secure(true)
+                .path("/auth/refresh")
+                .maxAge(0)
+                .sameSite("None")
+                .build();
+        response.addHeader(HttpHeaders.SET_COOKIE, refreshDelete.toString());
+
         return ResponseEntity.noContent().build();
     }
 }

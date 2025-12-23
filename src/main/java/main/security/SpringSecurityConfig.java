@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import static org.springframework.security.config.Customizer.withDefaults;
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -24,6 +26,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 public class SpringSecurityConfig{
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final RateLimitFilter rateLimitFilter;
     private final CorsConfigurationSource corsConfigurationSource;
     private final UserDetailsService userDetailsService;
     private final PasswordEncoder passwordEncoder;
@@ -38,6 +41,14 @@ public class SpringSecurityConfig{
                                         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized")
                         )
                 )
+                .headers(headers -> headers
+                        .contentSecurityPolicy(csp ->
+                                csp.policyDirectives("default-src 'self'")
+                        )
+                        .frameOptions(frame -> frame.deny())
+                        .xssProtection(xss -> xss.disable())
+                        .contentTypeOptions(withDefaults())
+                )
                 .cors(cors -> cors.configurationSource(corsConfigurationSource))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
@@ -51,6 +62,7 @@ public class SpringSecurityConfig{
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
+                .addFilterBefore(rateLimitFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
