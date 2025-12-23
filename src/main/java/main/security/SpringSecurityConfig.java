@@ -53,6 +53,7 @@ public class SpringSecurityConfig{
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/logout").permitAll()
                         .requestMatchers("/auth/refresh").permitAll()
                         .requestMatchers("/api/users/create").permitAll()
                         .requestMatchers("/media/**").permitAll()

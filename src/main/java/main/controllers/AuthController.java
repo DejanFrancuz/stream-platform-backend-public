@@ -30,12 +30,12 @@ public class AuthController {
             HttpServletResponse response
     ) {
         User userDto = authService.login(request);
-        String username = userDto.getEmail();
+        String email = userDto.getEmail();
 
         Set<String> perms = userDto.getPermissions();
-        String accessToken = authService.generateToken(username, perms);
+        String accessToken = authService.generateToken(email, perms);
 
-        String refreshToken = refreshTokenService.generateRefreshToken(username);
+        String refreshToken = refreshTokenService.generateRefreshToken(email);
 
         ResponseCookie accessCookie = ResponseCookie.from("access_token", accessToken)
                 .httpOnly(true)
@@ -68,7 +68,7 @@ public class AuthController {
         RefreshToken stored = refreshTokenService.validate(refreshToken);
 
         refreshTokenService.revoke(stored);
-        String newRefresh = refreshTokenService.generateRefreshToken(stored.getUsername());
+        String newRefresh = refreshTokenService.generateRefreshToken(stored.getEmail());
 
         ResponseCookie cookie = ResponseCookie.from("refresh_token", newRefresh)
                 .httpOnly(true)
@@ -80,8 +80,8 @@ public class AuthController {
 
         response.addHeader(HttpHeaders.SET_COOKIE, cookie.toString());
 
-        User user = authService.getPersonData(stored.getUsername());
-        String newAccess = authService.generateToken(user.getUsername(), user.getPermissions());
+        User user = authService.getPersonData(stored.getEmail());
+        String newAccess = authService.generateToken(user.getEmail(), user.getPermissions());
 
         ResponseCookie accessCookie = ResponseCookie.from("access_token", newAccess)
                 .httpOnly(true)

@@ -21,12 +21,12 @@ public class RefreshTokenService {
         this.refreshTokenRepository = refreshTokenRepository;
     }
 
-    public String generateRefreshToken(String username) {
+    public String generateRefreshToken(String email) {
         String rawToken = UUID.randomUUID().toString() + UUID.randomUUID();
         String hash = hash(rawToken);
 
         RefreshToken token = new RefreshToken();
-        token.setUsername(username);
+        token.setEmail(email);
         token.setTokenHash(hash);
         token.setExpiresAt(Instant.now().plus(14, ChronoUnit.DAYS));
         token.setRevoked(false);

@@ -14,7 +14,7 @@ public class RefreshToken {
     @GeneratedValue
     private Long id;
 
-    private String username;
+    private String email;
 
     private String tokenHash;
 
