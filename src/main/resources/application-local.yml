@@ -37,6 +37,8 @@ stripe:
 cors:
   allowed-origins:
     - "http://localhost:4200"
+    - "https://dfpybtxmxgkxr.cloudfront.net"
+    - "https://d1lw4nf8aa8prd.cloudfront.net"
   allowed-methods:
     - "GET"
     - "POST"
@@ -48,7 +50,6 @@ cors:
 
 jwt:
   secret: ${JWT_SECRET}
-#  secret: 'ZWZE1FCbhv09Gtu0g4zk60stWjDw7H7ath42+jOyDZ6RKxbukQGZDyKcJWGuatZGnHbQSVtZLnYppOdOdz4ejQ=='
   expiration: 3600000
 
 app:
